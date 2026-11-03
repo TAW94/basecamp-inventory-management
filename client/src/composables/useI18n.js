@@ -51,6 +51,14 @@ export function useI18n() {
     return key
   }
 
+  // Count-aware translate: uses `<key>One` for exactly 1 when that key exists
+  // (e.g. orders.itemsCountOne); otherwise falls back to the plain key (ja has no plural).
+  const tc = (key, count, params = {}) => {
+    const oneKey = `${key}One`
+    const useOne = count === 1 && t(oneKey) !== oneKey
+    return t(useOne ? oneKey : key, { count, ...params })
+  }
+
   const replacePlaceholders = (text, params) => {
     return text.replace(/\{(\w+)\}/g, (match, key) => {
       return params[key] !== undefined ? params[key] : match
@@ -116,6 +124,7 @@ export function useI18n() {
 
   return {
     t,
+    tc,
     setLocale,
     currentLocale: computed(() => currentLocale.value),
     currentCurrency,

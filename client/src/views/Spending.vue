@@ -9,7 +9,7 @@
     <div v-else-if="error" class="error">{{ error }}</div>
     <div v-else>
       <!-- Revenue & Financial KPIs -->
-      <div class="stats-grid-finance">
+      <div class="stats-grid">
         <div class="stat-card revenue-card">
           <div class="stat-label">{{ t('finance.totalRevenue') }}</div>
           <div class="stat-value">{{ formatCurrency(revenueMetrics.totalRevenue) }}</div>
@@ -47,17 +47,13 @@
         <div class="chart-container">
           <div class="bar-chart">
             <div class="y-axis">
-              <span>{{ currencySymbol }}{{ maxRevenueValue }}K</span>
-              <span>{{ currencySymbol }}{{ Math.round(maxRevenueValue * 0.75) }}K</span>
-              <span>{{ currencySymbol }}{{ Math.round(maxRevenueValue * 0.5) }}K</span>
-              <span>{{ currencySymbol }}{{ Math.round(maxRevenueValue * 0.25) }}K</span>
-              <span>{{ currencySymbol }}0</span>
+              <span v-for="tick in revenueTicks" :key="tick.value">{{ tick.label }}</span>
             </div>
             <div class="chart-area">
               <div v-for="month in monthlyRevenue" :key="month.month" class="bar-group-revenue">
                 <div class="revenue-bars">
-                  <div class="revenue-bar" :style="{ height: getRevenueBarHeight(month.revenue) + '%' }" :title="`Revenue: ${currencySymbol}${month.revenue.toLocaleString()}`"></div>
-                  <div class="cost-bar" :style="{ height: getRevenueBarHeight(month.costs) + '%' }" :title="`Costs: ${currencySymbol}${month.costs.toLocaleString()}`"></div>
+                  <div class="revenue-bar" :style="{ height: getRevenueBarHeight(month.revenue) + '%' }" :title="`Revenue: ${formatCurrencyWithDecimals(month.revenue, currentCurrency, 2)}`"></div>
+                  <div class="cost-bar" :style="{ height: getRevenueBarHeight(month.costs) + '%' }" :title="`Costs: ${formatCurrencyWithDecimals(month.costs, currentCurrency, 2)}`"></div>
                 </div>
                 <span class="bar-label">{{ translateMonth(month.month) }}</span>
               </div>
@@ -80,20 +76,15 @@
         <div class="chart-container">
           <div class="bar-chart">
             <div class="y-axis">
-              <span>{{ currencySymbol }}25K</span>
-              <span>{{ currencySymbol }}20K</span>
-              <span>{{ currencySymbol }}15K</span>
-              <span>{{ currencySymbol }}10K</span>
-              <span>{{ currencySymbol }}5K</span>
-              <span>{{ currencySymbol }}0</span>
+              <span v-for="tick in costTicks" :key="tick.value">{{ tick.label }}</span>
             </div>
             <div class="chart-area">
               <div v-for="month in monthlySpending" :key="month.month" class="bar-group">
                 <div class="stacked-bar" @click="showCostDetail(month)">
-                  <div class="bar-segment procurement" :style="{ height: getBarHeight(month.procurement) + '%' }" :title="`Procurement: ${currencySymbol}${month.procurement.toLocaleString()}`"></div>
-                  <div class="bar-segment operational" :style="{ height: getBarHeight(month.operational) + '%' }" :title="`Operational: ${currencySymbol}${month.operational.toLocaleString()}`"></div>
-                  <div class="bar-segment labor" :style="{ height: getBarHeight(month.labor) + '%' }" :title="`Labor: ${currencySymbol}${month.labor.toLocaleString()}`"></div>
-                  <div class="bar-segment overhead" :style="{ height: getBarHeight(month.overhead) + '%' }" :title="`Overhead: ${currencySymbol}${month.overhead.toLocaleString()}`"></div>
+                  <div class="bar-segment procurement" :style="{ height: getBarHeight(month.procurement) + '%' }" :title="`Procurement: ${formatCurrencyWithDecimals(month.procurement, currentCurrency, 2)}`"></div>
+                  <div class="bar-segment operational" :style="{ height: getBarHeight(month.operational) + '%' }" :title="`Operational: ${formatCurrencyWithDecimals(month.operational, currentCurrency, 2)}`"></div>
+                  <div class="bar-segment labor" :style="{ height: getBarHeight(month.labor) + '%' }" :title="`Labor: ${formatCurrencyWithDecimals(month.labor, currentCurrency, 2)}`"></div>
+                  <div class="bar-segment overhead" :style="{ height: getBarHeight(month.overhead) + '%' }" :title="`Overhead: ${formatCurrencyWithDecimals(month.overhead, currentCurrency, 2)}`"></div>
                 </div>
                 <span class="bar-label">{{ translateMonth(month.month) }}</span>
               </div>
@@ -112,7 +103,7 @@
             <div v-for="category in categorySpending" :key="category.category" class="category-item">
               <div class="category-info">
                 <div class="category-name">{{ translateCategory(category.category) }}</div>
-                <div class="category-amount">{{ currencySymbol }}{{ category.amount.toLocaleString() }}</div>
+                <div class="category-amount">{{ formatCurrencyWithDecimals(category.amount, currentCurrency, 2) }}</div>
               </div>
               <div class="category-bar-container">
                 <div class="category-bar" :style="{ width: category.percentage + '%' }"></div>
@@ -139,8 +130,8 @@
                   <th>{{ t('finance.transactions.id') }}</th>
                   <th>{{ t('finance.transactions.description') }}</th>
                   <th>{{ t('finance.transactions.vendor') }}</th>
-                  <th>{{ t('finance.transactions.date') }}</th>
-                  <th class="text-right">{{ t('finance.transactions.amount') }}</th>
+                  <th class="num">{{ t('finance.transactions.date') }}</th>
+                  <th class="num">{{ t('finance.transactions.amount') }}</th>
                 </tr>
               </thead>
               <tbody>
@@ -153,8 +144,8 @@
                   <td class="transaction-id">{{ transaction.id.toString().padStart(3, '0') }}</td>
                   <td class="transaction-description">{{ transaction.description }}</td>
                   <td class="transaction-vendor">{{ transaction.vendor }}</td>
-                  <td class="transaction-date">{{ formatDateShort(transaction.date) }}</td>
-                  <td class="transaction-amount text-right">{{ currencySymbol }}{{ transaction.amount.toLocaleString() }}</td>
+                  <td class="transaction-date num">{{ formatDateShort(transaction.date) }}</td>
+                  <td class="transaction-amount num">{{ formatCurrencyWithDecimals(transaction.amount, currentCurrency, 2) }}</td>
                 </tr>
               </tbody>
             </table>
@@ -176,7 +167,7 @@ import { ref, onMounted, watch, computed } from 'vue'
 import { api } from '../api'
 import { useFilters } from '../composables/useFilters'
 import { useI18n } from '../composables/useI18n'
-import { formatCurrency as formatCurrencyUtil } from '../utils/currency'
+import { formatCurrency as formatCurrencyUtil, formatCurrencyWithDecimals, formatCompactCurrency } from '../utils/currency'
 import CostDetailModal from '../components/CostDetailModal.vue'
 
 export default {
@@ -383,8 +374,18 @@ export default {
       return currentCurrency.value === 'JPY' ? '¥' : '$'
     })
 
+    // Axis ticks (top to bottom) as USD values, labelled compactly and converted for JPY.
+    // The revenue chart scales to maxRevenueValue so the top tick equals the tallest bar.
+    const COST_CHART_MAX = 25000
+    const buildTicks = (maxUsd, steps) => Array.from({ length: steps + 1 }, (_, i) => {
+      const value = maxUsd * (steps - i) / steps
+      return { value, label: formatCompactCurrency(value, currentCurrency.value) }
+    })
+    const revenueTicks = computed(() => buildTicks(maxRevenueValue.value * 1000, 4))
+    const costTicks = computed(() => buildTicks(COST_CHART_MAX, 5))
+
     const getBarHeight = (value) => {
-      const maxValue = 25000
+      const maxValue = COST_CHART_MAX
       return (value / maxValue) * 100
     }
 
@@ -448,8 +449,7 @@ export default {
     }
 
     const handleTransactionClick = (transaction) => {
-      console.log('Transaction clicked:', transaction)
-      alert(`Transaction Details:\n\nID: ${transaction.id}\nDescription: ${transaction.description}\nVendor: ${transaction.vendor}\nDate: ${formatDateShort(transaction.date)}\nAmount: $${transaction.amount.toLocaleString()}`)
+      alert(`Transaction Details:\n\nID: ${transaction.id}\nDescription: ${transaction.description}\nVendor: ${transaction.vendor}\nDate: ${formatDateShort(transaction.date)}\nAmount: ${formatCurrencyWithDecimals(transaction.amount, currentCurrency.value, 2)}`)
     }
 
     const showCostDetail = (monthData) => {
@@ -475,6 +475,10 @@ export default {
       maxRevenueValue,
       formatCurrency,
       currencySymbol,
+      currentCurrency,
+      formatCurrencyWithDecimals,
+      revenueTicks,
+      costTicks,
       getBarHeight,
       getRevenueBarHeight,
       formatDate,
@@ -493,86 +497,115 @@ export default {
 
 <style scoped>
 .stat-change {
-  margin-top: 0.75rem;
-  font-size: 0.875rem;
+  margin-top: var(--space-3);
+  font-size: var(--text-sm);
   display: flex;
   align-items: center;
-  gap: 0.25rem;
+  gap: var(--space-1);
 }
 
 .stat-change.positive {
-  color: #059669;
+  color: var(--color-success);
 }
 
 .stat-change.negative {
-  color: #dc2626;
+  color: var(--color-danger);
 }
 
 .change-icon {
-  font-weight: 700;
-  font-size: 1rem;
+  font-weight: var(--weight-bold);
+  font-size: var(--text-base);
 }
 
-.chart-card {
-  margin-bottom: 1.75rem;
+.stat-meta {
+  margin-top: var(--space-2);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+/* Title and legend share the header row and wrap on narrow screens. */
+.card-header {
+  flex-wrap: wrap;
 }
 
 .chart-legend {
   display: flex;
-  gap: 1.5rem;
-  font-size: 0.875rem;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-4);
+  font-size: var(--text-sm);
 }
 
 .legend-item {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  color: #64748b;
+  gap: var(--space-2);
+  color: var(--color-text-secondary);
 }
 
 .legend-dot {
-  width: 12px;
-  height: 12px;
-  border-radius: 3px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
 }
 
-.legend-dot.procurement { background: #3b82f6; }
-.legend-dot.operational { background: #8b5cf6; }
-.legend-dot.labor { background: #10b981; }
-.legend-dot.overhead { background: #f59e0b; }
-.legend-dot.revenue-color { background: #0f172a; }
-.legend-dot.cost-color { background: #ef4444; }
+/* Series colors: accent and status tokens. Operational has no matching token,
+   so it keeps its own violet to stay distinct from the other three series. */
+.legend-dot.procurement,
+.bar-segment.procurement { background: var(--color-accent); }
+.legend-dot.operational,
+.bar-segment.operational { background: #8b5cf6; }
+.legend-dot.labor,
+.bar-segment.labor { background: var(--color-success); }
+.legend-dot.overhead,
+.bar-segment.overhead { background: var(--color-warning); }
+.legend-dot.revenue-color { background: var(--color-text); }
+.legend-dot.cost-color { background: var(--color-danger); }
 
-.stats-grid-finance {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 1.5rem;
-  margin-bottom: 2rem;
+/* Charts scroll inside their card instead of widening the page. */
+.chart-container {
+  overflow-x: auto;
+  padding-top: var(--space-4);
 }
 
-.revenue-card {
-  border-left: 4px solid #0f172a;
+/* Chart geometry: fixed plot height, minimum width so 12 month groups stay legible. */
+.bar-chart {
+  --chart-label-height: 28px;
+  display: flex;
+  gap: var(--space-6);
+  height: 350px;
+  min-width: 560px;
 }
 
-.cost-card {
-  border-left: 4px solid #ef4444;
+.y-axis {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-right: var(--space-4);
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  border-right: 1px solid var(--color-border);
+  /* Reserve the x-label row so the tick labels span only the plot area (0 = bar baseline, top = tallest bar) */
+  padding-bottom: var(--chart-label-height);
 }
 
-.profit-card {
-  border-left: 4px solid #3b82f6;
+.chart-area {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-around;
+  gap: var(--space-2);
 }
 
-.stat-meta {
-  margin-top: 0.5rem;
-  font-size: 0.813rem;
-  color: #64748b;
-}
-
+.bar-group,
 .bar-group-revenue {
   display: flex;
   flex-direction: column;
   align-items: center;
   flex: 1;
+  min-width: 0;
   height: 100%;
 }
 
@@ -580,69 +613,35 @@ export default {
   width: 100%;
   max-width: 80px;
   display: flex;
-  gap: 6px;
+  gap: var(--space-1);
   justify-content: center;
   align-items: flex-end;
-  height: 100%;
-  padding-bottom: 2rem;
+  /* Fill the space above the label row; bars share the plot area with the y-axis ticks */
+  flex: 1 1 0;
+  min-height: 0;
 }
 
-.revenue-bar, .cost-bar {
+.revenue-bar,
+.cost-bar {
   width: 50%;
   max-width: 30px;
-  border-radius: 6px 6px 0 0;
-  transition: all 0.3s ease;
-  cursor: pointer;
   min-height: 4px;
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+  transition: opacity var(--transition);
+  cursor: pointer;
 }
 
 .revenue-bar {
-  background: #0f172a;
+  background: var(--color-text);
 }
 
 .cost-bar {
-  background: #ef4444;
+  background: var(--color-danger);
 }
 
-.revenue-bar:hover, .cost-bar:hover {
+.revenue-bar:hover,
+.cost-bar:hover {
   opacity: 0.8;
-  transform: scaleY(1.05);
-}
-
-.chart-container {
-  padding: 1.5rem 0;
-}
-
-.bar-chart {
-  display: flex;
-  gap: 1.5rem;
-  height: 350px;
-}
-
-.y-axis {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding-right: 1rem;
-  font-size: 0.75rem;
-  color: #94a3b8;
-  border-right: 1px solid #e2e8f0;
-}
-
-.chart-area {
-  flex: 1;
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-around;
-  gap: 0.5rem;
-}
-
-.bar-group {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  flex: 1;
-  height: 100%;
 }
 
 .stacked-bar {
@@ -651,10 +650,10 @@ export default {
   display: flex;
   flex-direction: column-reverse;
   align-items: stretch;
-  height: 100%;
-  padding-bottom: 2rem;
+  flex: 1 1 0;
+  min-height: 0;
   cursor: pointer;
-  transition: opacity 0.2s ease;
+  transition: opacity var(--transition);
 }
 
 .stacked-bar:hover {
@@ -662,106 +661,115 @@ export default {
 }
 
 .bar-segment {
-  width: 100%;
-  transition: all 0.3s ease;
-  cursor: pointer;
   display: block;
+  width: 100%;
+  cursor: pointer;
 }
 
 .bar-segment:first-child {
-  border-radius: 0 0 6px 6px;
+  border-radius: 0 0 var(--radius-sm) var(--radius-sm);
 }
 
 .bar-segment:last-child {
-  border-radius: 6px 6px 0 0;
-}
-
-.bar-segment.procurement { background: #3b82f6; }
-.bar-segment.operational { background: #8b5cf6; }
-.bar-segment.labor { background: #10b981; }
-.bar-segment.overhead { background: #f59e0b; }
-
-.bar-segment:hover {
-  opacity: 0.8;
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
 }
 
 .bar-label {
-  margin-top: 0.5rem;
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: #64748b;
+  box-sizing: border-box;
+  height: var(--chart-label-height);
+  padding-top: var(--space-2);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-muted);
+  white-space: nowrap;
 }
 
 .two-column-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
-  gap: 1.75rem;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr));
+  gap: var(--space-6);
+}
+
+/* Wide screens: the five-column transactions table gets the larger share. */
+@media (min-width: 1280px) {
+  .two-column-grid {
+    grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+  }
+}
+
+/* The grid gap does the spacing; drop the stacked-card margin inside it. */
+.two-column-grid > .card {
+  min-width: 0;
+  margin-bottom: 0;
 }
 
 .category-list {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: var(--space-5);
 }
 
 .category-item {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: var(--space-2);
 }
 
 .category-info {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: var(--space-3);
 }
 
 .category-name {
-  font-weight: 600;
-  color: #0f172a;
+  font-weight: var(--weight-semibold);
+  color: var(--color-text);
 }
 
 .category-amount {
-  font-weight: 700;
-  color: #2563eb;
-  font-size: 1.125rem;
+  font-weight: var(--weight-bold);
+  color: var(--color-accent);
+  font-size: var(--text-lg);
+  font-variant-numeric: tabular-nums;
 }
 
 .category-bar-container {
   width: 100%;
   height: 8px;
-  background: #f1f5f9;
-  border-radius: 4px;
+  background: var(--color-surface-muted);
+  border-radius: var(--radius-sm);
   overflow: hidden;
 }
 
 .category-bar {
   height: 100%;
-  background: linear-gradient(90deg, #3b82f6 0%, #2563eb 100%);
-  border-radius: 4px;
+  background: var(--color-accent);
+  border-radius: var(--radius-sm);
   transition: width 0.6s ease;
 }
 
 .category-meta {
   display: flex;
   justify-content: space-between;
-  font-size: 0.813rem;
+  font-size: var(--text-sm);
+  font-variant-numeric: tabular-nums;
 }
 
 .percentage {
-  color: #64748b;
+  color: var(--color-text-muted);
 }
 
 .change {
-  font-weight: 600;
+  font-weight: var(--weight-semibold);
 }
 
 .change.positive {
-  color: #059669;
+  color: var(--color-success);
 }
 
 .change.negative {
-  color: #dc2626;
+  color: var(--color-danger);
 }
 
 .transactions-card {
@@ -769,84 +777,65 @@ export default {
   flex-direction: column;
 }
 
+/* Scrolls both ways inside the card; the global sticky th keeps the header visible. */
 .transactions-table-container {
-  overflow-y: auto;
+  overflow: auto;
   max-height: 400px;
 }
 
-.transactions-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.transactions-table thead {
-  position: sticky;
-  top: 0;
-  background: #f8fafc;
-  z-index: 1;
-}
-
-.transactions-table th {
-  text-align: left;
-  padding: 0.625rem 0.75rem;
-  font-weight: 600;
-  color: #475569;
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  border-bottom: 1px solid #e2e8f0;
-}
-
-.transactions-table th.text-right {
-  text-align: right;
-}
-
+/* Half-width card: tighter horizontal cell padding than the global table so all
+   five columns fit beside the category card at desktop widths. */
+.transactions-table th,
 .transactions-table td {
-  padding: 0.75rem 0.75rem;
-  border-bottom: 1px solid #f1f5f9;
-  font-size: 0.875rem;
+  padding: var(--space-3) var(--space-2);
 }
 
-.transactions-table tbody tr {
+.transactions-table th:first-child,
+.transactions-table td:first-child {
+  padding-left: var(--space-3);
+}
+
+.transactions-table th:last-child,
+.transactions-table td:last-child {
+  padding-right: var(--space-3);
+}
+
+/* Rows open the transaction detail; hover fill comes from the global table styles. */
+.clickable-row {
   cursor: pointer;
-  transition: background-color 0.15s ease;
-}
-
-.transactions-table tbody tr:hover {
-  background: #f8fafc;
-}
-
-.transactions-table tbody tr.clickable-row:hover {
-  background: #eff6ff;
 }
 
 .transaction-id {
-  color: #64748b;
-  font-weight: 500;
-  font-family: 'Monaco', 'Courier New', monospace;
-  font-size: 0.813rem;
+  color: var(--color-text-muted);
+  font-weight: var(--weight-medium);
+  /* No mono token in the design system; IDs read best in a monospace stack. */
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
+  font-size: var(--text-xs);
+  white-space: nowrap;
 }
 
 .transaction-description {
-  color: #0f172a;
-  font-weight: 500;
+  color: var(--color-text);
+  font-weight: var(--weight-medium);
 }
 
 .transaction-vendor {
-  color: #64748b;
+  color: var(--color-text-muted);
 }
 
 .transaction-date {
-  color: #64748b;
-  font-size: 0.813rem;
+  color: var(--color-text-muted);
 }
 
 .transaction-amount {
-  font-weight: 700;
-  color: #0f172a;
+  font-weight: var(--weight-semibold);
+  color: var(--color-text);
 }
 
-.text-right {
+/* Numeric, currency and date columns: right-aligned with tabular figures */
+.num {
   text-align: right;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
 }
 </style>
