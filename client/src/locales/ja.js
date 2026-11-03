@@ -382,6 +382,13 @@ export default {
     noTasks: 'タスクがありません。上記からタスクを追加してください！'
   },
 
+  // Theme
+  theme: {
+    dark: 'ダークモード',
+    switchToLight: 'ライトモードに切り替え',
+    switchToDark: 'ダークモードに切り替え'
+  },
+
   // Language
   language: {
     english: 'English',

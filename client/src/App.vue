@@ -8,6 +8,7 @@
     >
       <template #footer>
         <LanguageSwitcher />
+        <ThemeToggle />
         <ProfileMenu @show-profile-details="showProfileDetails = true" @show-tasks="showTasks = true" />
       </template>
     </AppSidebar>
@@ -41,6 +42,7 @@ import ProfileMenu from './components/ProfileMenu.vue'
 import ProfileDetailsModal from './components/ProfileDetailsModal.vue'
 import TasksModal from './components/TasksModal.vue'
 import LanguageSwitcher from './components/LanguageSwitcher.vue'
+import ThemeToggle from './components/ThemeToggle.vue'
 import AppSidebar from './components/AppSidebar.vue'
 import AppTopbar from './components/AppTopbar.vue'
 import { useSidebar, useSidebarListeners } from './composables/useSidebar'
@@ -52,6 +54,7 @@ export default {
     ProfileDetailsModal,
     TasksModal,
     LanguageSwitcher,
+    ThemeToggle,
     AppSidebar,
     AppTopbar
   },
@@ -156,6 +159,9 @@ export default {
    Design tokens. Components read these; they never hold raw values.
    ========================================================================== */
 :root {
+  /* Native controls and scrollbars follow the theme. */
+  color-scheme: light;
+
   /* Spacing: 4px base. Use only these steps. */
   --space-1: 0.25rem; /* 4  */
   --space-2: 0.5rem; /* 8  */
@@ -196,6 +202,7 @@ export default {
   --color-accent-hover: #1d4ed8;
   --color-accent-soft: #eff6ff; /* active nav fill, selected rows */
   --color-focus: #3b82f6;
+  --color-on-accent: #ffffff; /* text/icons on accent fills */
 
   /* Status: text on soft background */
   --color-success: #047857;
@@ -215,6 +222,13 @@ export default {
   --shadow-md: 0 4px 12px rgba(15, 23, 42, 0.08);
   --shadow-lg: 0 12px 32px rgba(15, 23, 42, 0.12); /* modals, popovers */
 
+  /* Overlay and chart tokens */
+  --color-overlay: rgba(15, 23, 42, 0.45); /* modal / drawer backdrop */
+  --color-chart-operational: #8b5cf6;
+  --color-chart-neutral: #64748b; /* single-series bars */
+  --color-on-chart-neutral: #ffffff;
+  --select-chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+
   /* Layout */
   --sidebar-w: 248px;
   --sidebar-w-collapsed: 72px;
@@ -229,6 +243,48 @@ export default {
   --z-dropdown: 100;
   --z-overlay: 200;
   --z-modal: 300;
+}
+
+/* Dark theme: second set of the color tokens. Set via <html data-theme="dark">
+   (see composables/useTheme.js and the inline script in index.html).
+   All text pairs pass WCAG AA (4.5:1). On the dark accent, white text is only
+   2.5:1, so --color-on-accent flips to the dark slate (7:1). */
+:root[data-theme='dark'] {
+  color-scheme: dark;
+
+  --color-bg: #0f172a;
+  --color-surface: #1e293b;
+  --color-surface-muted: #273449;
+  --color-border: #334155;
+  --color-border-strong: #475569;
+  --color-text: #f1f5f9;
+  --color-text-secondary: #cbd5e1;
+  --color-text-muted: #94a3b8;
+
+  --color-accent: #60a5fa;
+  --color-accent-hover: #93c5fd;
+  --color-accent-soft: #263852;
+  --color-focus: #93c5fd;
+  --color-on-accent: #0f172a;
+
+  --color-success: #34d399;
+  --color-success-soft: #213d46;
+  --color-warning: #fbbf24;
+  --color-warning-soft: #393b38;
+  --color-danger: #f87171;
+  --color-danger-soft: #352f3f;
+  --color-info: #60a5fa;
+  --color-info-soft: #263852;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.35);
+  --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.5);
+
+  --color-overlay: rgba(0, 0, 0, 0.6);
+  --color-chart-operational: #a78bfa;
+  --color-chart-neutral: #94a3b8;
+  --color-on-chart-neutral: #0f172a;
+  --select-chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
 }
 
 @media (max-width: 767px) {
@@ -255,7 +311,7 @@ body {
 
 /* The native select arrow ignores padding and hugs the right edge, so its
    inset differs per browser and doesn't match the left text padding. Replace
-   it with a slate SVG chevron pinned at the same 12px inset, and reserve
+   it with a slate SVG chevron (themed) pinned at the same 12px inset, and reserve
    room on the right so long option text never runs under it.
    padding-right needs !important because component-scoped rules
    (e.g. `.filter-select { padding: 0 12px }`) out-rank this element selector. */
@@ -263,7 +319,8 @@ select {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  /* Chevron stroke is themed via --select-chevron (slate in light, lighter slate in dark). */
+  background-image: var(--select-chevron);
   background-repeat: no-repeat;
   background-position: right var(--space-3) center;
   background-size: 16px 16px;
@@ -304,7 +361,7 @@ select {
 .sidebar-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(15, 23, 42, 0.45);
+  background: var(--color-overlay);
   z-index: var(--z-overlay);
 }
 

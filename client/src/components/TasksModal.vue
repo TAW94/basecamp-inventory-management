@@ -277,7 +277,7 @@ export default {
   align-items: center;
   justify-content: center;
   padding: var(--space-6);
-  background: rgba(15, 23, 42, 0.45);
+  background: var(--color-overlay);
   /* Above topbar (50), sidebar (60), dropdowns (100) and drawer overlay (200). */
   z-index: var(--z-modal);
 }
@@ -483,7 +483,7 @@ export default {
   font-family: inherit;
   font-size: var(--text-sm);
   font-weight: var(--weight-medium);
-  color: #ffffff;
+  color: var(--color-on-accent);
   white-space: nowrap;
   cursor: pointer;
   transition: background-color var(--transition);

@@ -604,15 +604,15 @@ export default {
   border-radius: 50%;
 }
 
-/* Series colors: accent and status tokens. Operational has no matching token,
-   so it keeps its own violet to stay distinct from the other three series. */
+/* Series colors: accent and status tokens. Operational has no matching status
+   token, so it uses --color-chart-operational (violet) to stay distinct. */
 .legend-dot.procurement,
 .bar-segment.procurement {
   background: var(--color-accent);
 }
 .legend-dot.operational,
 .bar-segment.operational {
-  background: #8b5cf6;
+  background: var(--color-chart-operational);
 }
 .legend-dot.labor,
 .bar-segment.labor {

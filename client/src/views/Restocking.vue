@@ -398,8 +398,8 @@ tr.zero-qty strong {
   height: 36px;
   padding: 0 var(--space-4);
   background: var(--color-accent);
-  /* On-accent text: no token, white is the fixed contrast pair for the accent fill */
-  color: #fff;
+  /* On-accent text: --color-on-accent flips to dark slate in dark mode for contrast */
+  color: var(--color-on-accent);
   border: none;
   border-radius: var(--radius-md);
   font-family: inherit;

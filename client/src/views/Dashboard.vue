@@ -459,8 +459,10 @@ export default {
       // Filter inventory items to only include those with orders in the selected period
       const categoryMap = {}
 
-      // Use a single neutral slate/gray color for all categories
-      const singleColor = '#64748b' // Neutral slate gray color
+      // Single neutral color for all categories. A CSS var() reference (applied via
+      // :style, a CSS property) so the bar follows the theme; the value is only used
+      // as `background` below, never in an SVG fill attribute.
+      const singleColor = 'var(--color-chart-neutral)'
 
       // Get SKUs from orders in the filtered time period
       const orderedSkus = new Set()
@@ -1066,8 +1068,8 @@ export default {
 .h-bar-value {
   font-size: var(--text-xs);
   font-weight: var(--weight-semibold);
-  /* On-bar text: the script's slate fill always needs white for contrast */
-  color: #fff;
+  /* On-bar text pairs with --color-chart-neutral (white on slate, dark on light slate) */
+  color: var(--color-on-chart-neutral);
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }
@@ -1172,8 +1174,8 @@ export default {
 .po-button.create {
   background: var(--color-accent);
   border: 1px solid var(--color-accent);
-  /* On-accent text: no token, white is the fixed contrast pair for the accent fill */
-  color: #fff;
+  /* On-accent text: --color-on-accent flips to dark slate in dark mode for contrast */
+  color: var(--color-on-accent);
 }
 
 .po-button.create:hover {

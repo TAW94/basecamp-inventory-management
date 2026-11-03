@@ -169,7 +169,7 @@ const handleLogout = () => {
   flex-shrink: 0;
   border-radius: 50%;
   background: var(--color-accent);
-  color: #ffffff;
+  color: var(--color-on-accent);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -229,7 +229,7 @@ const handleLogout = () => {
   height: 40px;
   border-radius: 50%;
   background: var(--color-accent);
-  color: #ffffff;
+  color: var(--color-on-accent);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -307,7 +307,7 @@ const handleLogout = () => {
 .task-badge {
   margin-left: auto;
   background: var(--color-accent);
-  color: #ffffff;
+  color: var(--color-on-accent);
   font-size: var(--text-xs);
   font-weight: var(--weight-semibold);
   line-height: var(--leading-normal);

@@ -228,7 +228,7 @@ export default {
   flex-shrink: 0;
   border-radius: var(--radius-md);
   background: var(--color-accent);
-  color: #ffffff;
+  color: var(--color-on-accent);
 }
 
 .brand-text {
@@ -360,7 +360,8 @@ export default {
 .sidebar.is-collapsed .brand-text,
 .sidebar.is-collapsed .nav-label,
 .sidebar.is-collapsed :deep(.profile-name),
-.sidebar.is-collapsed :deep(.language-label) {
+.sidebar.is-collapsed :deep(.language-label),
+.sidebar.is-collapsed :deep(.theme-label) {
   position: absolute;
   width: 1px;
   height: 1px;
@@ -387,13 +388,14 @@ export default {
   transform: rotate(180deg);
 }
 
-/* Profile menu collapses to the avatar, language switcher to the globe. */
+/* Profile menu collapses to the avatar, language switcher to the globe, theme toggle to its icon. */
 .sidebar.is-collapsed :deep(.chevron) {
   display: none;
 }
 
 .sidebar.is-collapsed :deep(.profile-button),
-.sidebar.is-collapsed :deep(.language-button) {
+.sidebar.is-collapsed :deep(.language-button),
+.sidebar.is-collapsed :deep(.theme-button) {
   justify-content: center;
   padding: 0;
 }

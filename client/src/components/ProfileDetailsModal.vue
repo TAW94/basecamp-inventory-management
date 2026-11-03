@@ -108,7 +108,7 @@ const formatDate = (dateString) => {
   align-items: center;
   justify-content: center;
   padding: var(--space-6);
-  background: rgba(15, 23, 42, 0.45);
+  background: var(--color-overlay);
   /* Above topbar (50), sidebar (60), dropdowns (100) and drawer overlay (200). */
   z-index: var(--z-modal);
 }
@@ -246,7 +246,7 @@ const formatDate = (dateString) => {
   margin-bottom: var(--space-2);
   border-radius: 50%;
   background: var(--color-accent);
-  color: #ffffff;
+  color: var(--color-on-accent);
   font-size: var(--text-2xl);
   font-weight: var(--weight-bold);
   letter-spacing: 0.02em;

@@ -384,6 +384,13 @@ export default {
     noTasks: 'No tasks yet. Add your first task above!'
   },
 
+  // Theme
+  theme: {
+    dark: 'Dark mode',
+    switchToLight: 'Switch to light mode',
+    switchToDark: 'Switch to dark mode'
+  },
+
   // Language
   language: {
     english: 'English',
