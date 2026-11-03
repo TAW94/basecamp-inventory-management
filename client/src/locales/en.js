@@ -6,6 +6,8 @@ export default {
     orders: 'Orders',
     finance: 'Finance',
     demandForecast: 'Demand Forecast',
+    reports: 'Reports',
+    restocking: 'Restocking',
     companyName: 'Catalyst Components',
     subtitle: 'Inventory Management System'
   },
@@ -106,11 +108,20 @@ export default {
     title: 'Orders',
     description: 'View and manage customer orders',
     allOrders: 'All Orders',
+    submittedOrders: 'Submitted Orders',
+    submittedOrdersHint: 'Restocking orders are not affected by the filters above.',
+    noSubmittedOrders: 'No restocking orders have been submitted yet.',
+    createRestockingOrder: 'Create a restocking order',
+    submittedLoadFailed: 'Submitted orders could not be loaded.',
+    daysCount: '{count} days',
+    submittedDate: 'Submitted',
+    leadTime: 'Lead Time',
     totalOrders: 'Total Orders',
     totalRevenue: 'Total Revenue',
     avgOrderValue: 'Avg Order Value',
     onTimeDelivery: 'On-Time Delivery',
     itemsCount: '{count} items',
+    itemsCountOne: '{count} item',
     quantity: 'Qty',
     table: {
       orderNumber: 'Order Number',
@@ -126,6 +137,45 @@ export default {
       status: 'Status',
       expectedDelivery: 'Expected Delivery',
       actualDelivery: 'Actual Delivery'
+    }
+  },
+
+  // Restocking
+  restocking: {
+    title: 'Restocking',
+    description: 'Build a restocking order from forecasted demand within a budget',
+    budget: 'Budget',
+    budgetHint: 'Maximum: {max}. Amounts are shown in the current display currency; the budget is submitted in USD.',
+    recommendations: 'Recommended Restocking',
+    noShortfall: 'No items have a forecasted demand shortfall.',
+    partial: 'partial',
+    table: {
+      include: 'Include',
+      sku: 'SKU',
+      itemName: 'Item Name',
+      trend: 'Trend',
+      shortfall: 'Shortfall',
+      quantity: 'Recommended Qty',
+      unitCost: 'Unit Cost',
+      lineTotal: 'Line Total',
+      leadTime: 'Lead Time (days)'
+    },
+    summary: {
+      orderTotal: 'Order Total',
+      remainingBudget: 'Remaining Budget',
+      leadTime: 'Order Lead Time',
+      days: '{count} days'
+    },
+    placeOrder: 'Place Order',
+    submitting: 'Submitting...',
+    submitFailed: 'Failed to place the order. Please try again.',
+    orderRejected: 'The order was rejected, for example because it exceeds the budget.',
+    loadFailed: 'Failed to load demand forecasts',
+    confirmation: {
+      title: 'Order placed',
+      orderNumber: 'Order number',
+      expectedDelivery: 'Expected delivery',
+      viewOrders: 'View in Orders'
     }
   },
 
@@ -175,6 +225,7 @@ export default {
     stableDemand: 'Stable Demand',
     decreasingDemand: 'Decreasing Demand',
     itemsCount: '{count} items',
+    itemsCountOne: '{count} item',
     more: 'more...',
     demandForecasts: 'Demand Forecasts',
     table: {
@@ -204,6 +255,7 @@ export default {
     shipped: 'Shipped',
     processing: 'Processing',
     backordered: 'Backordered',
+    submitted: 'Submitted',
     inStock: 'In Stock',
     lowStock: 'Low Stock',
     adequate: 'Adequate'
@@ -275,6 +327,31 @@ export default {
   },
 
   // Profile Menu
+  // Reports
+  reports: {
+    title: 'Performance Reports',
+    subtitle: 'View quarterly performance metrics and monthly trends',
+    loading: 'Loading reports...',
+    loadFailed: 'Failed to load reports',
+    quarterlyPerformance: 'Quarterly Performance',
+    quarter: 'Quarter',
+    totalOrders: 'Total Orders',
+    totalRevenue: 'Total Revenue',
+    avgOrderValue: 'Avg Order Value',
+    fulfillmentRate: 'Fulfillment Rate',
+    monthlyRevenueTrend: 'Monthly Revenue Trend',
+    monthOverMonth: 'Month-over-Month Analysis',
+    month: 'Month',
+    orders: 'Orders',
+    revenue: 'Revenue',
+    change: 'Change',
+    growthRate: 'Growth Rate',
+    totalRevenueYtd: 'Total Revenue (YTD)',
+    avgMonthlyRevenue: 'Avg Monthly Revenue',
+    totalOrdersYtd: 'Total Orders (YTD)',
+    bestQuarter: 'Best Performing Quarter'
+  },
+
   profile: {
     profileDetails: 'Profile Details',
     myTasks: 'My Tasks',

@@ -6,6 +6,8 @@ export default {
     orders: '注文',
     finance: '財務',
     demandForecast: '需要予測',
+    reports: 'レポート',
+    restocking: '補充発注',
     companyName: '触媒コンポーネンツ',
     subtitle: '在庫管理システム'
   },
@@ -106,6 +108,14 @@ export default {
     title: '注文',
     description: '顧客注文の表示と管理',
     allOrders: 'すべての注文',
+    submittedOrders: '発注済み注文',
+    submittedOrdersHint: '補充発注は上記のフィルターの影響を受けません。',
+    noSubmittedOrders: '補充発注はまだ送信されていません。',
+    createRestockingOrder: '補充発注を作成する',
+    submittedLoadFailed: '発注済み注文を読み込めませんでした。',
+    daysCount: '{count}日',
+    submittedDate: '発注日',
+    leadTime: 'リードタイム',
     totalOrders: '総注文数',
     totalRevenue: '総収益',
     avgOrderValue: '平均注文額',
@@ -126,6 +136,45 @@ export default {
       status: 'ステータス',
       expectedDelivery: '予定配達日',
       actualDelivery: '実際の配達日'
+    }
+  },
+
+  // 補充発注
+  restocking: {
+    title: '補充発注',
+    description: '予算の範囲内で需要予測に基づく補充発注を作成します',
+    budget: '予算',
+    budgetHint: '上限: {max}。金額は現在の表示通貨で表示されますが、予算はUSDで送信されます。',
+    recommendations: '推奨補充内容',
+    noShortfall: '予測需要が不足している品目はありません。',
+    partial: '一部のみ',
+    table: {
+      include: '対象',
+      sku: 'SKU',
+      itemName: '品名',
+      trend: 'トレンド',
+      shortfall: '不足数',
+      quantity: '推奨数量',
+      unitCost: '単価',
+      lineTotal: '小計',
+      leadTime: 'リードタイム(日)'
+    },
+    summary: {
+      orderTotal: '注文合計',
+      remainingBudget: '残予算',
+      leadTime: '注文リードタイム',
+      days: '{count}日'
+    },
+    placeOrder: '発注する',
+    submitting: '送信中...',
+    submitFailed: '発注に失敗しました。もう一度お試しください。',
+    orderRejected: '発注が拒否されました(例: 予算超過)。',
+    loadFailed: '需要予測の読み込みに失敗しました',
+    confirmation: {
+      title: '発注が完了しました',
+      orderNumber: '注文番号',
+      expectedDelivery: '納品予定日',
+      viewOrders: '注文一覧で確認'
     }
   },
 
@@ -204,6 +253,7 @@ export default {
     shipped: '出荷済み',
     processing: '処理中',
     backordered: 'バックオーダー',
+    submitted: '発注済み',
     inStock: '在庫あり',
     lowStock: '在庫僅少',
     adequate: '適量'
@@ -275,6 +325,31 @@ export default {
   },
 
   // Profile Menu
+  // レポート
+  reports: {
+    title: 'パフォーマンスレポート',
+    subtitle: '四半期の業績指標と月次トレンドを表示します',
+    loading: 'レポートを読み込み中...',
+    loadFailed: 'レポートの読み込みに失敗しました',
+    quarterlyPerformance: '四半期パフォーマンス',
+    quarter: '四半期',
+    totalOrders: '総注文数',
+    totalRevenue: '総売上',
+    avgOrderValue: '平均注文額',
+    fulfillmentRate: '充足率',
+    monthlyRevenueTrend: '月次売上トレンド',
+    monthOverMonth: '前月比分析',
+    month: '月',
+    orders: '注文',
+    revenue: '売上',
+    change: '増減',
+    growthRate: '成長率',
+    totalRevenueYtd: '総売上（年初来）',
+    avgMonthlyRevenue: '月平均売上',
+    totalOrdersYtd: '総注文数（年初来）',
+    bestQuarter: '最高業績の四半期'
+  },
+
   profile: {
     profileDetails: 'プロフィール詳細',
     myTasks: 'マイタスク',
