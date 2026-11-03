@@ -49,7 +49,11 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="row in rows" :key="row.id" :class="{ muted: !row.included || row.quantity === 0, 'zero-qty': row.quantity === 0 }">
+              <tr
+                v-for="row in rows"
+                :key="row.id"
+                :class="{ muted: !row.included || row.quantity === 0, 'zero-qty': row.quantity === 0 }"
+              >
                 <td class="include-cell">
                   <input
                     type="checkbox"
@@ -58,7 +62,9 @@
                     @change="toggleItem(row.item_sku)"
                   />
                 </td>
-                <td class="nowrap"><strong>{{ row.item_sku }}</strong></td>
+                <td class="nowrap">
+                  <strong>{{ row.item_sku }}</strong>
+                </td>
                 <td>{{ row.item_name }}</td>
                 <td>
                   <span :class="['badge', row.trend]">{{ t(`trends.${row.trend}`) }}</span>
@@ -143,15 +149,15 @@ export default {
     // A zero baseline with positive forecast is treated as unbounded growth.
     const growthPercent = (f) => {
       if (f.current_demand === 0) return f.forecasted_demand > 0 ? Infinity : 0
-      return (f.forecasted_demand - f.current_demand) / f.current_demand * 100
+      return ((f.forecasted_demand - f.current_demand) / f.current_demand) * 100
     }
 
     // Candidates: items whose forecast exceeds current demand, in priority order.
     const candidates = computed(() => {
       const trendRank = { increasing: 0, stable: 1 }
       return forecasts.value
-        .map(f => ({ ...f, shortfall: Math.max(f.forecasted_demand - f.current_demand, 0) }))
-        .filter(f => f.shortfall > 0)
+        .map((f) => ({ ...f, shortfall: Math.max(f.forecasted_demand - f.current_demand, 0) }))
+        .filter((f) => f.shortfall > 0)
         .sort((a, b) => {
           // increasing first, then stable, then anything else; ties broken by growth % descending
           const rankA = trendRank[a.trend] ?? 2
@@ -173,7 +179,7 @@ export default {
     // We keep walking afterwards because a cheaper later item may still fit the leftover.
     const rows = computed(() => {
       let remaining = toCents(budget.value)
-      return candidates.value.map(c => {
+      return candidates.value.map((c) => {
         const included = !excludedSkus.value.has(c.item_sku)
         let quantity = 0
         const unit = toCents(c.unit_cost)
@@ -186,12 +192,14 @@ export default {
       })
     })
 
-    const orderItems = computed(() => rows.value.filter(r => r.quantity > 0))
+    const orderItems = computed(() => rows.value.filter((r) => r.quantity > 0))
     // Sum and subtract in cents, convert to dollars only for display
-    const orderTotalCents = computed(() => orderItems.value.reduce((sum, r) => sum + r.quantity * toCents(r.unit_cost), 0))
+    const orderTotalCents = computed(() =>
+      orderItems.value.reduce((sum, r) => sum + r.quantity * toCents(r.unit_cost), 0)
+    )
     const orderTotal = computed(() => fromCents(orderTotalCents.value))
     const remainingBudget = computed(() => fromCents(toCents(budget.value) - orderTotalCents.value))
-    const orderLeadTime = computed(() => Math.max(0, ...orderItems.value.map(r => r.lead_time_days)))
+    const orderLeadTime = computed(() => Math.max(0, ...orderItems.value.map((r) => r.lead_time_days)))
     // A showing confirmation blocks re-submitting the identical order; changing the budget or
     // selection clears it (see watch below) and re-enables the button.
     const canSubmit = computed(() => orderItems.value.length > 0 && !submitting.value && !confirmation.value)
@@ -214,7 +222,7 @@ export default {
         loading.value = true
         forecasts.value = await api.getDemandForecasts()
         // Default budget: 50% of max, snapped to the slider step so the thumb sits on a tick
-        budget.value = Math.round(maxBudget.value * 0.5 / BUDGET_STEP) * BUDGET_STEP
+        budget.value = Math.round((maxBudget.value * 0.5) / BUDGET_STEP) * BUDGET_STEP
       } catch (err) {
         error.value = t('restocking.loadFailed') + ': ' + err.message
       } finally {
@@ -231,7 +239,7 @@ export default {
         // Only items with a positive quantity; the server re-prices from its own catalog
         confirmation.value = await api.createRestockingOrder({
           budget: budget.value,
-          items: orderItems.value.map(r => ({
+          items: orderItems.value.map((r) => ({
             sku: r.item_sku,
             name: r.item_name,
             quantity: r.quantity,

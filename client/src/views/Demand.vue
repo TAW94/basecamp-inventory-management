@@ -86,14 +86,16 @@
             </thead>
             <tbody>
               <tr v-for="forecast in forecasts" :key="forecast.id">
-                <td class="nowrap"><strong>{{ forecast.item_sku }}</strong></td>
+                <td class="nowrap">
+                  <strong>{{ forecast.item_sku }}</strong>
+                </td>
                 <td>{{ forecast.item_name }}</td>
                 <td class="num">{{ forecast.current_demand }}</td>
-                <td class="num"><strong>{{ forecast.forecasted_demand }}</strong></td>
                 <td class="num">
-                  <span :style="{ color: getChangeColor(forecast) }">
-                    {{ getChangePercent(forecast) }}%
-                  </span>
+                  <strong>{{ forecast.forecasted_demand }}</strong>
+                </td>
+                <td class="num">
+                  <span :style="{ color: getChangeColor(forecast) }"> {{ getChangePercent(forecast) }}% </span>
                 </td>
                 <td>
                   <span :class="['badge', forecast.trend]">
@@ -135,8 +137,8 @@ export default {
       }
 
       // Get SKUs of items that match the filters
-      const validSkus = new Set(inventoryItems.value.map(item => item.sku))
-      return allForecasts.value.filter(f => validSkus.has(f.item_sku))
+      const validSkus = new Set(inventoryItems.value.map((item) => item.sku))
+      return allForecasts.value.filter((f) => validSkus.has(f.item_sku))
     })
 
     const loadForecasts = async () => {
@@ -167,11 +169,13 @@ export default {
     })
 
     const getForecastsByTrend = (trend) => {
-      return forecasts.value.filter(f => f.trend === trend)
+      return forecasts.value.filter((f) => f.trend === trend)
     }
 
     const getChangePercent = (forecast) => {
-      const change = ((forecast.forecasted_demand - forecast.current_demand) / forecast.current_demand * 100).toFixed(1)
+      const change = (((forecast.forecasted_demand - forecast.current_demand) / forecast.current_demand) * 100).toFixed(
+        1
+      )
       return change > 0 ? `+${change}` : change
     }
 

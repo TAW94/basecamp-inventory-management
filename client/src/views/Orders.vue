@@ -53,10 +53,14 @@
             </thead>
             <tbody>
               <tr v-for="order in restockingOrders" :key="order.id">
-                <td class="nowrap"><strong>{{ order.order_number }}</strong></td>
+                <td class="nowrap">
+                  <strong>{{ order.order_number }}</strong>
+                </td>
                 <td class="num">{{ formatDate(order.submitted_date) }}</td>
                 <td class="nowrap">{{ tc('orders.itemsCount', order.items.length) }}</td>
-                <td class="num"><strong>{{ formatCurrencyWithDecimals(order.total_cost, currentCurrency, 2) }}</strong></td>
+                <td class="num">
+                  <strong>{{ formatCurrencyWithDecimals(order.total_cost, currentCurrency, 2) }}</strong>
+                </td>
                 <td class="num">{{ t('orders.daysCount', { count: order.lead_time_days }) }}</td>
                 <td class="num">{{ formatDate(order.expected_delivery) }}</td>
                 <td>
@@ -87,7 +91,9 @@
             </thead>
             <tbody>
               <tr v-for="order in orders" :key="order.id">
-                <td class="col-order-number nowrap"><strong>{{ order.order_number }}</strong></td>
+                <td class="col-order-number nowrap">
+                  <strong>{{ order.order_number }}</strong>
+                </td>
                 <td class="col-customer">{{ translateCustomerName(order.customer) }}</td>
                 <td class="col-items">
                   <details class="items-details">
@@ -97,7 +103,10 @@
                     <div class="items-dropdown">
                       <div v-for="(item, idx) in order.items" :key="idx" class="item-entry">
                         <span class="item-name">{{ translateProductName(item.name) }}</span>
-                        <span class="item-meta">{{ t('orders.quantity') }}: {{ item.quantity }} @ {{ formatCurrencyWithDecimals(item.unit_price, currentCurrency, 2) }}</span>
+                        <span class="item-meta"
+                          >{{ t('orders.quantity') }}: {{ item.quantity }} @
+                          {{ formatCurrencyWithDecimals(item.unit_price, currentCurrency, 2) }}</span
+                        >
                       </div>
                     </div>
                   </details>
@@ -109,7 +118,9 @@
                 </td>
                 <td class="col-date num">{{ formatDate(order.order_date) }}</td>
                 <td class="col-date num">{{ formatDate(order.expected_delivery) }}</td>
-                <td class="col-value num"><strong>{{ formatCurrencyWithDecimals(order.total_value, currentCurrency, 2) }}</strong></td>
+                <td class="col-value num">
+                  <strong>{{ formatCurrencyWithDecimals(order.total_value, currentCurrency, 2) }}</strong>
+                </td>
               </tr>
             </tbody>
           </table>
@@ -141,13 +152,7 @@ export default {
     const restockingError = ref(null)
 
     // Use shared filters
-    const {
-      selectedPeriod,
-      selectedLocation,
-      selectedCategory,
-      selectedStatus,
-      getCurrentFilters
-    } = useFilters()
+    const { selectedPeriod, selectedLocation, selectedCategory, selectedStatus, getCurrentFilters } = useFilters()
 
     const loadOrders = async () => {
       try {
@@ -187,15 +192,15 @@ export default {
     })
 
     const getOrdersByStatus = (status) => {
-      return orders.value.filter(order => order.status === status)
+      return orders.value.filter((order) => order.status === status)
     }
 
     const getOrderStatusClass = (status) => {
       const statusMap = {
-        'Delivered': 'success',
-        'Shipped': 'info',
-        'Processing': 'warning',
-        'Backordered': 'danger'
+        Delivered: 'success',
+        Shipped: 'info',
+        Processing: 'warning',
+        Backordered: 'danger'
       }
       return statusMap[status] || 'info'
     }

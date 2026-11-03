@@ -8,7 +8,16 @@
   >
     <div class="sidebar-brand">
       <span class="brand-mark" aria-hidden="true">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg
+          width="18"
+          height="18"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
           <path d="M12 2l10 5-10 5L2 7z" />
           <path d="M2 17l10 5 10-5" />
           <path d="M2 12l10 5 10-5" />
@@ -68,7 +77,17 @@
         aria-controls="app-sidebar"
         @click="$emit('toggle-collapse')"
       >
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <svg
+          width="18"
+          height="18"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
           <path d="M11 17l-5-5 5-5" />
           <path d="M18 17l-5-5 5-5" />
         </svg>
@@ -98,13 +117,7 @@ const icons = {
   ],
   trending: ['M22 7l-8.5 8.5-5-5L2 17', 'M16 7h6v6'],
   refresh: ['M21 12a9 9 0 1 1-2.64-6.36L21 8', 'M21 3v5h-5'],
-  file: [
-    'M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z',
-    'M14 2v6h6',
-    'M16 13H8',
-    'M16 17H8',
-    'M10 9H8'
-  ]
+  file: ['M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z', 'M14 2v6h6', 'M16 13H8', 'M16 17H8', 'M10 9H8']
 }
 
 const FOCUSABLE = 'a[href], button:not([disabled]), select, input, [tabindex]:not([tabindex="-1"])'
@@ -132,20 +145,22 @@ export default {
 
     const getFocusable = () => {
       if (!sidebarEl.value) return []
-      return Array.from(sidebarEl.value.querySelectorAll(FOCUSABLE))
-        .filter(el => el.offsetParent !== null)
+      return Array.from(sidebarEl.value.querySelectorAll(FOCUSABLE)).filter((el) => el.offsetParent !== null)
     }
 
     // When the drawer opens, move focus to the current page link (or the first link).
-    watch(() => props.drawerOpen, (open) => {
-      if (!open) return
-      nextTick(() => {
-        if (!sidebarEl.value) return
-        const target = sidebarEl.value.querySelector('.nav-item.is-active') ||
-          sidebarEl.value.querySelector('.nav-item')
-        if (target) target.focus()
-      })
-    })
+    watch(
+      () => props.drawerOpen,
+      (open) => {
+        if (!open) return
+        nextTick(() => {
+          if (!sidebarEl.value) return
+          const target =
+            sidebarEl.value.querySelector('.nav-item.is-active') || sidebarEl.value.querySelector('.nav-item')
+          if (target) target.focus()
+        })
+      }
+    )
 
     // Keep Tab / Shift+Tab inside the drawer while it is open over the page.
     const trapFocus = (e) => {
@@ -269,7 +284,9 @@ export default {
   font-weight: var(--weight-medium);
   text-decoration: none;
   white-space: nowrap;
-  transition: background var(--transition), color var(--transition);
+  transition:
+    background var(--transition),
+    color var(--transition);
 }
 
 .nav-item:hover {
@@ -318,7 +335,9 @@ export default {
   background: transparent;
   color: var(--color-text-muted);
   cursor: pointer;
-  transition: background var(--transition), color var(--transition);
+  transition:
+    background var(--transition),
+    color var(--transition);
 }
 
 .collapse-toggle:hover {
@@ -406,13 +425,17 @@ export default {
     transform: translateX(-100%);
     /* visibility keeps the closed drawer out of the tab order; it flips after the slide-out ends. */
     visibility: hidden;
-    transition: transform 200ms ease, visibility 0s linear 200ms;
+    transition:
+      transform 200ms ease,
+      visibility 0s linear 200ms;
   }
 
   .sidebar.is-open {
     transform: translateX(0);
     visibility: visible;
-    transition: transform 200ms ease, visibility 0s;
+    transition:
+      transform 200ms ease,
+      visibility 0s;
   }
 
   /* The drawer has no rail mode; overlay, Esc and nav clicks close it. */

@@ -26,14 +26,14 @@
             </thead>
             <tbody>
               <tr v-for="q in quarterlyData" :key="q.quarter">
-                <td class="nowrap"><strong>{{ q.quarter }}</strong></td>
+                <td class="nowrap">
+                  <strong>{{ q.quarter }}</strong>
+                </td>
                 <td class="num">{{ q.total_orders }}</td>
                 <td class="num">{{ money(q.total_revenue) }}</td>
                 <td class="num">{{ money(q.avg_order_value) }}</td>
                 <td class="num">
-                  <span :class="getFulfillmentClass(q.fulfillment_rate)">
-                    {{ q.fulfillment_rate }}%
-                  </span>
+                  <span :class="getFulfillmentClass(q.fulfillment_rate)"> {{ q.fulfillment_rate }}% </span>
                 </td>
               </tr>
             </tbody>
@@ -80,7 +80,9 @@
             </thead>
             <tbody>
               <tr v-for="(month, index) in monthlyData" :key="month.month">
-                <td class="nowrap"><strong>{{ formatMonth(month.month) }}</strong></td>
+                <td class="nowrap">
+                  <strong>{{ formatMonth(month.month) }}</strong>
+                </td>
                 <td class="num">{{ month.order_count }}</td>
                 <td class="num">{{ money(month.revenue) }}</td>
                 <td class="num">
@@ -165,7 +167,6 @@ export default {
 
         // Calculate summary stats
         this.calculateSummaryStats()
-
       } catch (err) {
         console.error('Error loading reports:', err)
         this.error = this.t('reports.loadFailed') + ': ' + err.message

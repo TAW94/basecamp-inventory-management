@@ -10,10 +10,16 @@
     <div v-else>
       <div class="card">
         <div class="card-header">
-          <h3 class="card-title">{{ t('inventory.stockLevels') }} ({{ filteredItems.length }} {{ t('inventory.skus') }})</h3>
+          <h3 class="card-title">
+            {{ t('inventory.stockLevels') }} ({{ filteredItems.length }} {{ t('inventory.skus') }})
+          </h3>
           <div class="search-box">
             <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-              <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
+              <path
+                fill-rule="evenodd"
+                d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                clip-rule="evenodd"
+              />
             </svg>
             <input
               v-model="searchQuery"
@@ -28,7 +34,11 @@
               :title="t('inventory.clearSearch')"
             >
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+                <path
+                  fill-rule="evenodd"
+                  d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                  clip-rule="evenodd"
+                />
               </svg>
             </button>
           </div>
@@ -49,19 +59,22 @@
               </tr>
             </thead>
             <tbody>
-              <tr
-                v-for="item in filteredItems"
-                :key="item.id"
-                class="clickable-row"
-                @click="showItemDetail(item)"
-              >
-                <td class="nowrap"><strong>{{ item.sku }}</strong></td>
+              <tr v-for="item in filteredItems" :key="item.id" class="clickable-row" @click="showItemDetail(item)">
+                <td class="nowrap">
+                  <strong>{{ item.sku }}</strong>
+                </td>
                 <td>{{ translateProductName(item.name) }}</td>
                 <td>{{ translateCategory(item.category) }}</td>
-                <td class="num"><strong>{{ item.quantity_on_hand }}</strong></td>
+                <td class="num">
+                  <strong>{{ item.quantity_on_hand }}</strong>
+                </td>
                 <td class="num">{{ item.reorder_point }}</td>
                 <td class="num">{{ formatCurrencyWithDecimals(item.unit_cost, currentCurrency, 2) }}</td>
-                <td class="num"><strong>{{ formatCurrencyWithDecimals(item.quantity_on_hand * item.unit_cost, currentCurrency, 2) }}</strong></td>
+                <td class="num">
+                  <strong>{{
+                    formatCurrencyWithDecimals(item.quantity_on_hand * item.unit_cost, currentCurrency, 2)
+                  }}</strong>
+                </td>
                 <td>{{ translateWarehouse(item.location) }}</td>
                 <td>
                   <span :class="['badge', getStockStatusClass(item)]">
@@ -75,11 +88,7 @@
       </div>
     </div>
 
-    <InventoryDetailModal
-      :is-open="showItemModal"
-      :inventory-item="selectedItem"
-      @close="showItemModal = false"
-    />
+    <InventoryDetailModal :is-open="showItemModal" :inventory-item="selectedItem" @close="showItemModal = false" />
   </div>
 </template>
 
@@ -116,7 +125,7 @@ export default {
     const { selectedLocation, selectedCategory, getCurrentFilters } = useFilters()
 
     // Stock status order for sorting (using status keys)
-    const STATUS_ORDER = { 'lowStock': 0, 'adequate': 1, 'inStock': 2 }
+    const STATUS_ORDER = { lowStock: 0, adequate: 1, inStock: 2 }
 
     // Get stock status key (for sorting and translation)
     const getStockStatusKey = (item) => {
@@ -136,9 +145,7 @@ export default {
       // Apply search filter if query exists
       if (searchQuery.value.trim()) {
         const query = searchQuery.value.toLowerCase().trim()
-        filtered = filtered.filter(item =>
-          item.name.toLowerCase().includes(query)
-        )
+        filtered = filtered.filter((item) => item.name.toLowerCase().includes(query))
       }
 
       // Sort by stock status: Low Stock first, then Adequate, then In Stock
@@ -189,9 +196,9 @@ export default {
     const translateCategory = (category) => {
       const categoryMap = {
         'Circuit Boards': t('categories.circuitBoards'),
-        'Sensors': t('categories.sensors'),
-        'Actuators': t('categories.actuators'),
-        'Controllers': t('categories.controllers'),
+        Sensors: t('categories.sensors'),
+        Actuators: t('categories.actuators'),
+        Controllers: t('categories.controllers'),
         'Power Supplies': t('categories.powerSupplies')
       }
       return categoryMap[category] || category
@@ -259,7 +266,9 @@ export default {
   font-size: var(--text-sm);
   color: var(--color-text);
   background: var(--color-surface);
-  transition: border-color var(--transition), box-shadow var(--transition);
+  transition:
+    border-color var(--transition),
+    box-shadow var(--transition);
 }
 
 .search-input:focus {
@@ -284,7 +293,9 @@ export default {
   border-radius: var(--radius-sm);
   color: var(--color-text-muted);
   cursor: pointer;
-  transition: background-color var(--transition), color var(--transition);
+  transition:
+    background-color var(--transition),
+    color var(--transition);
 }
 
 .clear-search:hover {

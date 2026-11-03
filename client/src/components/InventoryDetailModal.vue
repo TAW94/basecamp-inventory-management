@@ -7,7 +7,7 @@
             <h3 class="modal-title">Inventory Item Details</h3>
             <button class="close-button" aria-label="Close" @click="close">
               <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-                <path d="M15 5L5 15M5 5L15 15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <path d="M15 5L5 15M5 5L15 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
               </svg>
             </button>
           </div>
@@ -16,9 +16,9 @@
             <div class="item-header">
               <div class="item-icon" :class="getStockIconClass()">
                 <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-                  <rect x="8" y="12" width="32" height="28" rx="2" stroke="currentColor" stroke-width="2.5"/>
-                  <path d="M16 8V16M32 8V16M8 20H40" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
-                  <path d="M16 28H32M16 34H24" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+                  <rect x="8" y="12" width="32" height="28" rx="2" stroke="currentColor" stroke-width="2.5" />
+                  <path d="M16 8V16M32 8V16M8 20H40" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+                  <path d="M16 28H32M16 34H24" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
                 </svg>
               </div>
               <div class="item-title-section">
@@ -61,7 +61,11 @@
               <div class="info-item">
                 <div class="info-label">Units Remaining</div>
                 <div class="info-value">
-                  <span :class="inventoryItem.quantity_on_hand <= inventoryItem.reorder_point ? 'value-danger' : 'value-success'">
+                  <span
+                    :class="
+                      inventoryItem.quantity_on_hand <= inventoryItem.reorder_point ? 'value-danger' : 'value-success'
+                    "
+                  >
                     {{ inventoryItem.quantity_on_hand - inventoryItem.reorder_point }} units
                   </span>
                 </div>
@@ -69,7 +73,9 @@
 
               <div class="info-item">
                 <div class="info-label">Unit Cost</div>
-                <div class="info-value">{{ formatCurrencyWithDecimals(inventoryItem.unit_cost, currentCurrency, 2) }}</div>
+                <div class="info-value">
+                  {{ formatCurrencyWithDecimals(inventoryItem.unit_cost, currentCurrency, 2) }}
+                </div>
               </div>
 
               <div class="info-item">
@@ -240,7 +246,9 @@ const getSummaryCardClass = () => {
   border-radius: var(--radius-md);
   color: var(--color-text-secondary);
   cursor: pointer;
-  transition: background-color var(--transition), color var(--transition);
+  transition:
+    background-color var(--transition),
+    color var(--transition);
 }
 
 .close-button:hover {

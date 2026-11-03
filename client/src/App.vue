@@ -8,10 +8,7 @@
     >
       <template #footer>
         <LanguageSwitcher />
-        <ProfileMenu
-          @show-profile-details="showProfileDetails = true"
-          @show-tasks="showTasks = true"
-        />
+        <ProfileMenu @show-profile-details="showProfileDetails = true" @show-tasks="showTasks = true" />
       </template>
     </AppSidebar>
     <div v-if="drawerOpen" class="sidebar-overlay" @click="closeDrawer" />
@@ -22,10 +19,7 @@
       </main>
     </div>
 
-    <ProfileDetailsModal
-      :is-open="showProfileDetails"
-      @close="showProfileDetails = false"
-    />
+    <ProfileDetailsModal :is-open="showProfileDetails" @close="showProfileDetails = false" />
 
     <TasksModal
       :is-open="showTasks"
@@ -98,18 +92,18 @@ export default {
     const deleteTask = async (taskId) => {
       try {
         // Check if it's a mock task (from currentUser)
-        const isMockTask = currentUser.value.tasks.some(t => t.id === taskId)
+        const isMockTask = currentUser.value.tasks.some((t) => t.id === taskId)
 
         if (isMockTask) {
           // Remove from mock tasks
-          const index = currentUser.value.tasks.findIndex(t => t.id === taskId)
+          const index = currentUser.value.tasks.findIndex((t) => t.id === taskId)
           if (index !== -1) {
             currentUser.value.tasks.splice(index, 1)
           }
         } else {
           // Remove from API tasks
           await api.deleteTask(taskId)
-          apiTasks.value = apiTasks.value.filter(t => t.id !== taskId)
+          apiTasks.value = apiTasks.value.filter((t) => t.id !== taskId)
         }
       } catch (err) {
         console.error('Failed to delete task:', err)
@@ -119,7 +113,7 @@ export default {
     const toggleTask = async (taskId) => {
       try {
         // Check if it's a mock task (from currentUser)
-        const mockTask = currentUser.value.tasks.find(t => t.id === taskId)
+        const mockTask = currentUser.value.tasks.find((t) => t.id === taskId)
 
         if (mockTask) {
           // Toggle mock task status
@@ -127,7 +121,7 @@ export default {
         } else {
           // Toggle API task
           const updatedTask = await api.toggleTask(taskId)
-          const index = apiTasks.value.findIndex(t => t.id === taskId)
+          const index = apiTasks.value.findIndex((t) => t.id === taskId)
           if (index !== -1) {
             apiTasks.value[index] = updatedTask
           }
@@ -157,31 +151,30 @@ export default {
 }
 </script>
 
-
 <style>
 /* ==========================================================================
    Design tokens. Components read these; they never hold raw values.
    ========================================================================== */
 :root {
   /* Spacing: 4px base. Use only these steps. */
-  --space-1: 0.25rem;  /* 4  */
-  --space-2: 0.5rem;   /* 8  */
-  --space-3: 0.75rem;  /* 12 */
-  --space-4: 1rem;     /* 16 */
-  --space-5: 1.25rem;  /* 20 */
-  --space-6: 1.5rem;   /* 24 */
-  --space-8: 2rem;     /* 32 */
-  --space-10: 2.5rem;  /* 40 */
-  --space-12: 3rem;    /* 48 */
+  --space-1: 0.25rem; /* 4  */
+  --space-2: 0.5rem; /* 8  */
+  --space-3: 0.75rem; /* 12 */
+  --space-4: 1rem; /* 16 */
+  --space-5: 1.25rem; /* 20 */
+  --space-6: 1.5rem; /* 24 */
+  --space-8: 2rem; /* 32 */
+  --space-10: 2.5rem; /* 40 */
+  --space-12: 3rem; /* 48 */
 
   /* Type */
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --text-xs: 0.75rem;    /* 12: table headers, badges, captions */
-  --text-sm: 0.875rem;   /* 14: body in dense UI, nav items, table cells */
-  --text-base: 1rem;     /* 16 */
-  --text-lg: 1.125rem;   /* 18: card titles */
-  --text-xl: 1.5rem;     /* 24: page titles */
-  --text-2xl: 1.875rem;  /* 30: stat values */
+  --text-xs: 0.75rem; /* 12: table headers, badges, captions */
+  --text-sm: 0.875rem; /* 14: body in dense UI, nav items, table cells */
+  --text-base: 1rem; /* 16 */
+  --text-lg: 1.125rem; /* 18: card titles */
+  --text-xl: 1.5rem; /* 24: page titles */
+  --text-2xl: 1.875rem; /* 30: stat values */
   --leading-tight: 1.25;
   --leading-normal: 1.5;
   --weight-medium: 500;
@@ -189,8 +182,8 @@ export default {
   --weight-bold: 700;
 
   /* Neutrals (slate) */
-  --color-bg: #f8fafc;            /* app canvas */
-  --color-surface: #ffffff;       /* cards, sidebar, topbar */
+  --color-bg: #f8fafc; /* app canvas */
+  --color-surface: #ffffff; /* cards, sidebar, topbar */
   --color-surface-muted: #f1f5f9; /* hover fills, table head */
   --color-border: #e2e8f0;
   --color-border-strong: #cbd5e1;
@@ -201,19 +194,23 @@ export default {
   /* Accent */
   --color-accent: #2563eb;
   --color-accent-hover: #1d4ed8;
-  --color-accent-soft: #eff6ff;   /* active nav fill, selected rows */
+  --color-accent-soft: #eff6ff; /* active nav fill, selected rows */
   --color-focus: #3b82f6;
 
   /* Status: text on soft background */
-  --color-success: #047857;  --color-success-soft: #ecfdf5;
-  --color-warning: #b45309;  --color-warning-soft: #fffbeb;
-  --color-danger:  #b91c1c;  --color-danger-soft:  #fef2f2;
-  --color-info:    #1d4ed8;  --color-info-soft:    #eff6ff;
+  --color-success: #047857;
+  --color-success-soft: #ecfdf5;
+  --color-warning: #b45309;
+  --color-warning-soft: #fffbeb;
+  --color-danger: #b91c1c;
+  --color-danger-soft: #fef2f2;
+  --color-info: #1d4ed8;
+  --color-info-soft: #eff6ff;
 
   /* Shape and depth */
-  --radius-sm: 6px;   /* badges, inputs, nav items */
-  --radius-md: 8px;   /* buttons, dropdowns */
-  --radius-lg: 12px;  /* cards, modals */
+  --radius-sm: 6px; /* badges, inputs, nav items */
+  --radius-md: 8px; /* buttons, dropdowns */
+  --radius-lg: 12px; /* cards, modals */
   --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.05);
   --shadow-md: 0 4px 12px rgba(15, 23, 42, 0.08);
   --shadow-lg: 0 12px 32px rgba(15, 23, 42, 0.12); /* modals, popovers */
@@ -358,7 +355,9 @@ select {
   padding: var(--space-5);
   border-radius: var(--radius-lg);
   border: 1px solid var(--color-border);
-  transition: border-color var(--transition), box-shadow var(--transition);
+  transition:
+    border-color var(--transition),
+    box-shadow var(--transition);
 }
 
 /* Hover lift only for stat cards that open something. */
