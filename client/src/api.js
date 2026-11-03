@@ -134,5 +134,16 @@ export const api = {
   async getPurchaseOrderByBacklogItem(backlogItemId) {
     const response = await axios.get(`${API_BASE_URL}/purchase-orders/${backlogItemId}`)
     return response.data
+  },
+
+  async getLowStockItems(threshold = 10, filters = {}) {
+    const items = await this.getInventory(filters)
+    return items
+      .filter((item) => item.quantity_on_hand <= threshold)
+      .map((item) => ({
+        sku: item.sku,
+        name: item.name,
+        quantity: item.quantity_on_hand
+      }))
   }
 }
