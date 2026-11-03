@@ -349,7 +349,10 @@ export default {
     totalRevenueYtd: 'Total Revenue (YTD)',
     avgMonthlyRevenue: 'Avg Monthly Revenue',
     totalOrdersYtd: 'Total Orders (YTD)',
-    bestQuarter: 'Best Performing Quarter'
+    bestQuarter: 'Best Performing Quarter',
+    notAvailable: 'N/A',
+    quarterLabel: 'Q{quarter} {year}',
+    noData: 'No report data for the selected filters'
   },
 
   profile: {
