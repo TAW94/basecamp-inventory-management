@@ -88,7 +88,9 @@ export function useSidebarListeners() {
   let desktopMql = null
   let mobileMql = null
 
-  const onDesktopChange = (e) => { isDesktop.value = e.matches }
+  const onDesktopChange = (e) => {
+    isDesktop.value = e.matches
+  }
   const onMobileChange = (e) => {
     isMobile.value = e.matches
     // Leaving the mobile range with the drawer open would leave the body locked.

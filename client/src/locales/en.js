@@ -349,7 +349,10 @@ export default {
     totalRevenueYtd: 'Total Revenue (YTD)',
     avgMonthlyRevenue: 'Avg Monthly Revenue',
     totalOrdersYtd: 'Total Orders (YTD)',
-    bestQuarter: 'Best Performing Quarter'
+    bestQuarter: 'Best Performing Quarter',
+    notAvailable: 'N/A',
+    quarterLabel: 'Q{quarter} {year}',
+    noData: 'No report data for the selected filters'
   },
 
   profile: {
@@ -379,6 +382,13 @@ export default {
     dueDate: 'Due Date',
     addTask: 'Add Task',
     noTasks: 'No tasks yet. Add your first task above!'
+  },
+
+  // Theme
+  theme: {
+    dark: 'Dark mode',
+    switchToLight: 'Switch to light mode',
+    switchToDark: 'Switch to dark mode'
   },
 
   // Language

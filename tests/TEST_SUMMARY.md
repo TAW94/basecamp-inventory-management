@@ -96,8 +96,8 @@ Recent additions are fully tested:
 ## Running the Tests
 
 ```bash
-cd tests
-python -m pytest backend/ -v
+cd server
+uv run pytest ../tests/backend/ -v
 ```
 
 ## Test Results

@@ -7,7 +7,7 @@
             <h3 class="modal-title">{{ costData.month }} Cost Breakdown</h3>
             <button class="close-button" aria-label="Close" @click="close">
               <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-                <path d="M15 5L5 15M5 5L15 15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <path d="M15 5L5 15M5 5L15 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
               </svg>
             </button>
           </div>
@@ -25,13 +25,15 @@
                 <div class="cost-header">
                   <div class="cost-icon">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                      <rect x="4" y="6" width="16" height="14" rx="2" stroke="currentColor" stroke-width="2"/>
-                      <path d="M8 6V4M16 6V4M4 10H20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                      <rect x="4" y="6" width="16" height="14" rx="2" stroke="currentColor" stroke-width="2" />
+                      <path d="M8 6V4M16 6V4M4 10H20" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
                     </svg>
                   </div>
                   <div class="cost-info">
                     <div class="cost-name">Procurement</div>
-                    <div class="cost-amount">{{ formatCurrencyWithDecimals(costData.procurement, currentCurrency, 2) }}</div>
+                    <div class="cost-amount">
+                      {{ formatCurrencyWithDecimals(costData.procurement, currentCurrency, 2) }}
+                    </div>
                   </div>
                 </div>
                 <div class="cost-percentage">{{ getProcurementPercentage() }}% of total</div>
@@ -41,13 +43,15 @@
                 <div class="cost-header">
                   <div class="cost-icon">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                      <circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="2"/>
-                      <path d="M12 8V12L15 15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                      <circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="2" />
+                      <path d="M12 8V12L15 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
                     </svg>
                   </div>
                   <div class="cost-info">
                     <div class="cost-name">Operational</div>
-                    <div class="cost-amount">{{ formatCurrencyWithDecimals(costData.operational, currentCurrency, 2) }}</div>
+                    <div class="cost-amount">
+                      {{ formatCurrencyWithDecimals(costData.operational, currentCurrency, 2) }}
+                    </div>
                   </div>
                 </div>
                 <div class="cost-percentage">{{ getOperationalPercentage() }}% of total</div>
@@ -57,8 +61,12 @@
                 <div class="cost-header">
                   <div class="cost-icon">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                      <circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="2"/>
-                      <path d="M6 20C6 16.6863 8.68629 14 12 14C15.3137 14 18 16.6863 18 20" stroke="currentColor" stroke-width="2"/>
+                      <circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="2" />
+                      <path
+                        d="M6 20C6 16.6863 8.68629 14 12 14C15.3137 14 18 16.6863 18 20"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      />
                     </svg>
                   </div>
                   <div class="cost-info">
@@ -73,12 +81,19 @@
                 <div class="cost-header">
                   <div class="cost-icon">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                      <path d="M3 12L5 10M5 10L12 3L19 10M5 10V20C5 20.5523 5.44772 21 6 21H9M19 10L21 12M19 10V20C19 20.5523 18.5523 21 18 21H15M9 21C9 21 9 18 9 16C9 14 10 14 12 14C14 14 15 14 15 16C15 18 15 21 15 21M9 21H15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                      <path
+                        d="M3 12L5 10M5 10L12 3L19 10M5 10V20C5 20.5523 5.44772 21 6 21H9M19 10L21 12M19 10V20C19 20.5523 18.5523 21 18 21H15M9 21C9 21 9 18 9 16C9 14 10 14 12 14C14 14 15 14 15 16C15 18 15 21 15 21M9 21H15"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                      />
                     </svg>
                   </div>
                   <div class="cost-info">
                     <div class="cost-name">Overhead</div>
-                    <div class="cost-amount">{{ formatCurrencyWithDecimals(costData.overhead, currentCurrency, 2) }}</div>
+                    <div class="cost-amount">
+                      {{ formatCurrencyWithDecimals(costData.overhead, currentCurrency, 2) }}
+                    </div>
                   </div>
                 </div>
                 <div class="cost-percentage">{{ getOverheadPercentage() }}% of total</div>
@@ -121,8 +136,7 @@ const emit = defineEmits(['close'])
 
 const totalCosts = computed(() => {
   if (!props.costData) return 0
-  return props.costData.procurement + props.costData.operational +
-         props.costData.labor + props.costData.overhead
+  return props.costData.procurement + props.costData.operational + props.costData.labor + props.costData.overhead
 })
 
 const getProcurementPercentage = () => {
@@ -162,7 +176,7 @@ const close = () => {
   align-items: center;
   justify-content: center;
   padding: var(--space-6);
-  background: rgba(15, 23, 42, 0.45);
+  background: var(--color-overlay);
   /* Above topbar (50), sidebar (60), dropdowns (100) and drawer overlay (200). */
   z-index: var(--z-modal);
 }
@@ -215,7 +229,9 @@ const close = () => {
   border-radius: var(--radius-md);
   color: var(--color-text-secondary);
   cursor: pointer;
-  transition: background-color var(--transition), color var(--transition);
+  transition:
+    background-color var(--transition),
+    color var(--transition);
 }
 
 .close-button:hover {

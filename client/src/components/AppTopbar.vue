@@ -16,7 +16,16 @@
         :aria-expanded="String(drawerOpen)"
         @click="$emit('open-drawer')"
       >
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          aria-hidden="true"
+        >
           <path d="M4 6h16" />
           <path d="M4 12h16" />
           <path d="M4 18h16" />
@@ -53,7 +62,7 @@ export default {
 
     // Page title (mobile only) comes from the same nav array the sidebar renders.
     const pageTitle = computed(() => {
-      const item = navItems.find(i => i.to === route.path)
+      const item = navItems.find((i) => i.to === route.path)
       return item ? navLabel(item, t) : ''
     })
 
@@ -106,7 +115,9 @@ export default {
   background: transparent;
   color: var(--color-text-secondary);
   cursor: pointer;
-  transition: background var(--transition), color var(--transition);
+  transition:
+    background var(--transition),
+    color var(--transition);
 }
 
 .menu-button:hover {

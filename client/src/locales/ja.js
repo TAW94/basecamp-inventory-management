@@ -347,7 +347,10 @@ export default {
     totalRevenueYtd: '総売上（年初来）',
     avgMonthlyRevenue: '月平均売上',
     totalOrdersYtd: '総注文数（年初来）',
-    bestQuarter: '最高業績の四半期'
+    bestQuarter: '最高業績の四半期',
+    notAvailable: '該当なし',
+    quarterLabel: '{year}年 第{quarter}四半期',
+    noData: '選択したフィルターに該当するレポートデータはありません'
   },
 
   profile: {
@@ -377,6 +380,13 @@ export default {
     dueDate: '期限',
     addTask: 'タスクを追加',
     noTasks: 'タスクがありません。上記からタスクを追加してください！'
+  },
+
+  // Theme
+  theme: {
+    dark: 'ダークモード',
+    switchToLight: 'ライトモードに切り替え',
+    switchToDark: 'ダークモードに切り替え'
   },
 
   // Language

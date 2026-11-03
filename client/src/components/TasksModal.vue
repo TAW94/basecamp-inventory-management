@@ -7,7 +7,7 @@
             <h3 class="modal-title">{{ t('tasks.title') }}</h3>
             <button class="close-button" :aria-label="t('profileDetails.close')" @click="close">
               <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-                <path d="M15 5L5 15M5 5L15 15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <path d="M15 5L5 15M5 5L15 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
               </svg>
             </button>
           </div>
@@ -32,11 +32,7 @@
               <div class="form-row">
                 <div class="form-group">
                   <label for="task-priority">{{ t('tasks.priority') }}</label>
-                  <select
-                    id="task-priority"
-                    v-model="newTask.priority"
-                    class="task-select"
-                  >
+                  <select id="task-priority" v-model="newTask.priority" class="task-select">
                     <option value="high">{{ t('priority.high') }}</option>
                     <option value="medium">{{ t('priority.medium') }}</option>
                     <option value="low">{{ t('priority.low') }}</option>
@@ -45,16 +41,15 @@
 
                 <div class="form-group">
                   <label for="task-due-date">{{ t('tasks.dueDate') }}</label>
-                  <input
-                    id="task-due-date"
-                    v-model="newTask.dueDate"
-                    type="date"
-                    class="task-input"
-                  />
+                  <input id="task-due-date" v-model="newTask.dueDate" type="date" class="task-input" />
                 </div>
 
                 <div class="form-group-btn">
-                  <button @click="handleAddTask" class="task-add-btn" :disabled="!newTask.title.trim() || !newTask.dueDate">
+                  <button
+                    @click="handleAddTask"
+                    class="task-add-btn"
+                    :disabled="!newTask.title.trim() || !newTask.dueDate"
+                  >
                     {{ t('tasks.addTask') }}
                   </button>
                 </div>
@@ -86,8 +81,23 @@
                     />
                     <span class="task-title" @click="$emit('toggle-task', task.id)">{{ task.title }}</span>
                   </div>
-                  <button @click="$emit('delete-task', task.id)" class="task-delete-btn" title="Delete task" aria-label="Delete task">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <button
+                    @click="$emit('delete-task', task.id)"
+                    class="task-delete-btn"
+                    title="Delete task"
+                    aria-label="Delete task"
+                  >
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                    >
                       <path d="M3 6h18" />
                       <path d="M8 6V4h8v2" />
                       <path d="M19 6l-1 14H6L5 6" />
@@ -102,8 +112,13 @@
                   </span>
                   <div class="task-due-date">
                     <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                      <rect x="2" y="3" width="10" height="9" rx="1" stroke="currentColor" stroke-width="1.2"/>
-                      <path d="M4.5 1.5V4.5M9.5 1.5V4.5M2 6H12" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+                      <rect x="2" y="3" width="10" height="9" rx="1" stroke="currentColor" stroke-width="1.2" />
+                      <path
+                        d="M4.5 1.5V4.5M9.5 1.5V4.5M2 6H12"
+                        stroke="currentColor"
+                        stroke-width="1.2"
+                        stroke-linecap="round"
+                      />
                     </svg>
                     {{ formatDueDate(task.dueDate) }}
                   </div>
@@ -228,9 +243,9 @@ export default {
 
     const translatePriority = (priority) => {
       const priorityMap = {
-        'high': t('priority.high'),
-        'medium': t('priority.medium'),
-        'low': t('priority.low')
+        high: t('priority.high'),
+        medium: t('priority.medium'),
+        low: t('priority.low')
       }
       return priorityMap[priority] || priority
     }
@@ -262,7 +277,7 @@ export default {
   align-items: center;
   justify-content: center;
   padding: var(--space-6);
-  background: rgba(15, 23, 42, 0.45);
+  background: var(--color-overlay);
   /* Above topbar (50), sidebar (60), dropdowns (100) and drawer overlay (200). */
   z-index: var(--z-modal);
 }
@@ -315,7 +330,9 @@ export default {
   border-radius: var(--radius-md);
   color: var(--color-text-secondary);
   cursor: pointer;
-  transition: background-color var(--transition), color var(--transition);
+  transition:
+    background-color var(--transition),
+    color var(--transition);
 }
 
 .close-button:hover {
@@ -432,7 +449,9 @@ export default {
   font-family: inherit;
   font-size: var(--text-sm);
   color: var(--color-text);
-  transition: border-color var(--transition), box-shadow var(--transition);
+  transition:
+    border-color var(--transition),
+    box-shadow var(--transition);
 }
 
 .task-input::placeholder {
@@ -464,7 +483,7 @@ export default {
   font-family: inherit;
   font-size: var(--text-sm);
   font-weight: var(--weight-medium);
-  color: #ffffff;
+  color: var(--color-on-accent);
   white-space: nowrap;
   cursor: pointer;
   transition: background-color var(--transition);
@@ -509,7 +528,9 @@ export default {
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
-  transition: border-color var(--transition), box-shadow var(--transition);
+  transition:
+    border-color var(--transition),
+    box-shadow var(--transition);
 }
 
 .task-item:hover {
@@ -597,7 +618,9 @@ export default {
   border-radius: var(--radius-sm);
   color: var(--color-text-muted);
   cursor: pointer;
-  transition: background-color var(--transition), color var(--transition);
+  transition:
+    background-color var(--transition),
+    color var(--transition);
 }
 
 .task-delete-btn:hover {

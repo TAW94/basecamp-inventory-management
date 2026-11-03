@@ -7,7 +7,7 @@
             <h3 class="modal-title">Inventory Shortage Details</h3>
             <button class="close-button" aria-label="Close" @click="close">
               <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-                <path d="M15 5L5 15M5 5L15 15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <path d="M15 5L5 15M5 5L15 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
               </svg>
             </button>
           </div>
@@ -16,8 +16,8 @@
             <div class="shortage-header">
               <div class="shortage-icon">
                 <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-                  <path d="M24 8L24 28M24 34L24 36" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
-                  <circle cx="24" cy="24" r="18" stroke="currentColor" stroke-width="3"/>
+                  <path d="M24 8L24 28M24 34L24 36" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                  <circle cx="24" cy="24" r="18" stroke="currentColor" stroke-width="3" />
                 </svg>
               </div>
               <div class="shortage-title-section">
@@ -135,7 +135,7 @@ const formatDate = (dateString) => {
   align-items: center;
   justify-content: center;
   padding: var(--space-6);
-  background: rgba(15, 23, 42, 0.45);
+  background: var(--color-overlay);
   /* Above topbar (50), sidebar (60), dropdowns (100) and drawer overlay (200). */
   z-index: var(--z-modal);
 }
@@ -188,7 +188,9 @@ const formatDate = (dateString) => {
   border-radius: var(--radius-md);
   color: var(--color-text-secondary);
   cursor: pointer;
-  transition: background-color var(--transition), color var(--transition);
+  transition:
+    background-color var(--transition),
+    color var(--transition);
 }
 
 .close-button:hover {

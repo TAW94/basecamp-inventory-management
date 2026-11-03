@@ -281,6 +281,6 @@ server/
 
 **Start server:** `uv run python main.py`
 **API docs:** http://localhost:8001/docs
-**Run tests:** `cd ../tests && uv run pytest backend/ -v`
+**Run tests:** `uv run pytest ../tests/backend/ -v` (from `server/`; pytest is a dev dependency of this project, not of `tests/`)
 **Add endpoint:** Define model → Add route → Write tests
 **Add filter:** Add query param → Check 'all' value → Filter data

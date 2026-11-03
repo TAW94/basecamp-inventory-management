@@ -32,9 +32,7 @@
           <h3 class="card-title">Backlog Items</h3>
         </div>
         <div v-if="backlogItems.length === 0" class="empty-state">
-          <p class="empty-state-text">
-            ✓ No backlog items - all orders can be fulfilled!
-          </p>
+          <p class="empty-state-text">✓ No backlog items - all orders can be fulfilled!</p>
         </div>
         <div v-else class="table-container">
           <table>
@@ -52,15 +50,17 @@
             </thead>
             <tbody>
               <tr v-for="item in backlogItems" :key="item.id">
-                <td class="nowrap"><strong>{{ item.order_id }}</strong></td>
-                <td class="nowrap"><strong>{{ item.item_sku }}</strong></td>
+                <td class="nowrap">
+                  <strong>{{ item.order_id }}</strong>
+                </td>
+                <td class="nowrap">
+                  <strong>{{ item.item_sku }}</strong>
+                </td>
                 <td>{{ item.item_name }}</td>
                 <td class="num">{{ item.quantity_needed }}</td>
                 <td class="num">{{ item.quantity_available }}</td>
                 <td>
-                  <span class="badge danger">
-                    {{ item.quantity_needed - item.quantity_available }} units short
-                  </span>
+                  <span class="badge danger"> {{ item.quantity_needed - item.quantity_available }} units short </span>
                 </td>
                 <td class="num">
                   <!-- Same thresholds as before; color now comes from status tokens -->
@@ -105,8 +105,8 @@ export default {
       }
 
       // Get SKUs of items that match the filters
-      const validSkus = new Set(inventoryItems.value.map(item => item.sku))
-      return allBacklogItems.value.filter(b => validSkus.has(b.item_sku))
+      const validSkus = new Set(inventoryItems.value.map((item) => item.sku))
+      return allBacklogItems.value.filter((b) => validSkus.has(b.item_sku))
     })
 
     const loadBacklog = async () => {
@@ -132,7 +132,7 @@ export default {
     }
 
     const getBacklogByPriority = (priority) => {
-      return backlogItems.value.filter(item => item.priority === priority)
+      return backlogItems.value.filter((item) => item.priority === priority)
     }
 
     // Watch for filter changes and reload data
