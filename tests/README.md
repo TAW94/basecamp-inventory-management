@@ -10,49 +10,60 @@ tests/
 ├── backend/            # Backend API tests
 │   ├── conftest.py     # Test fixtures and configuration
 │   ├── test_inventory.py      # Inventory endpoint tests (10 tests)
-│   ├── test_orders.py         # Orders endpoint tests (15 tests)
 │   ├── test_dashboard.py      # Dashboard endpoint tests (13 tests)
-│   └── test_misc_endpoints.py # Demand, backlog, spending tests (13 tests)
+│   ├── test_misc_endpoints.py # Demand, backlog, spending, root tests (17 tests)
+│   └── test_restocking.py     # Restocking orders + demand cost fields (17 tests)
 └── README.md           # This file
 ```
 
 ## Running Tests
 
+pytest and the other test dependencies are dev dependencies of the `server/`
+project (`server/pyproject.toml`); there is no Python project in `tests/`.
+Run every command from `server/` and point it at `../tests`. pytest still picks
+up `tests/pytest.ini` as its config.
+
 ### Run all tests
+
 ```bash
-cd tests
-uv run pytest -v
+cd server
+uv run pytest ../tests -v
 ```
 
 ### Run specific test file
+
 ```bash
-cd tests
-uv run pytest backend/test_inventory.py -v
+cd server
+uv run pytest ../tests/backend/test_inventory.py -v
 ```
 
 ### Run specific test class
+
 ```bash
-cd tests
-uv run pytest backend/test_inventory.py::TestInventoryEndpoints -v
+cd server
+uv run pytest ../tests/backend/test_inventory.py::TestInventoryEndpoints -v
 ```
 
 ### Run specific test
+
 ```bash
-cd tests
-uv run pytest backend/test_inventory.py::TestInventoryEndpoints::test_get_all_inventory -v
+cd server
+uv run pytest ../tests/backend/test_inventory.py::TestInventoryEndpoints::test_get_all_inventory -v
 ```
 
 ### Run with coverage (requires pytest-cov)
+
 ```bash
-cd tests
-uv run pytest --cov=../server --cov-report=html
+cd server
+uv run pytest ../tests --cov=. --cov-report=html
 ```
 
 ## Test Coverage
 
-**Total: 51 tests** covering all API endpoints:
+**Total: 57 tests** covering the API endpoints:
 
 ### Inventory Endpoints (10 tests)
+
 - ✓ Get all inventory items
 - ✓ Filter by warehouse
 - ✓ Filter by category (including Power Supplies)
@@ -62,19 +73,8 @@ uv run pytest --cov=../server --cov-report=html
 - ✓ Validate field structure
 - ✓ Validate data types
 
-### Orders Endpoints (15 tests)
-- ✓ Get all orders
-- ✓ Filter by warehouse, category, status
-- ✓ Filter by month and quarter
-- ✓ Multiple filter combinations
-- ✓ Get specific order by ID
-- ✓ Handle non-existent orders (404)
-- ✓ Validate order items structure
-- ✓ Validate status values
-- ✓ Validate date formats
-- ✓ Validate total value calculations
-
 ### Dashboard Endpoints (13 tests)
+
 - ✓ Get dashboard summary
 - ✓ Validate data types and non-negative values
 - ✓ Filter by warehouse, category, status, month
@@ -84,11 +84,14 @@ uv run pytest --cov=../server --cov-report=html
   - Low stock items calculation
   - Total inventory value calculation
 
-### Miscellaneous Endpoints (13 tests)
-- **Demand Forecasts (3 tests)**
+### Miscellaneous Endpoints (17 tests)
+
+- **Demand Forecasts (5 tests)**
   - ✓ Get demand forecasts
   - ✓ Validate trend values
   - ✓ Validate non-negative values
+  - ✓ Stable-demand items have small changes
+  - ✓ New forecast items are present
 
 - **Backlog Items (4 tests)**
   - ✓ Get backlog items
@@ -96,15 +99,30 @@ uv run pytest --cov=../server --cov-report=html
   - ✓ Validate quantity logic
   - ✓ Validate days delayed
 
-- **Spending Data (4 tests)**
+- **Spending Data (6 tests)**
   - ✓ Get spending summary
   - ✓ Get monthly spending
+  - ✓ Monthly spending has all cost categories
+  - ✓ Monthly spending has variety
   - ✓ Get category spending
   - ✓ Get recent transactions
 
 - **Root Endpoint (2 tests)**
   - ✓ API info endpoint
   - ✓ Validate response structure
+
+### Restocking Endpoints (17 tests)
+
+- ✓ Demand forecast cost field types
+- ✓ List restocking orders (empty, newest first)
+- ✓ Create a restocking order
+- ✓ Lead time and total cost calculations
+- ✓ Budget checks: over budget, exactly at budget, one cent over
+- ✓ Validation errors: invalid/missing budget, unknown SKU, duplicate SKU, empty items, invalid quantity
+
+### Not yet covered
+
+- Orders endpoints (`/api/orders`) have no dedicated test file.
 
 ## Test Features
 
@@ -117,7 +135,9 @@ uv run pytest --cov=../server --cov-report=html
 
 ## Dependencies
 
-Tests require the following packages (automatically installed with `uv sync`):
+Tests require the following packages, declared in the `dev` dependency group of
+`server/pyproject.toml` (installed with `cd server && uv sync`):
+
 - pytest >= 8.0.0
 - pytest-asyncio >= 0.23.0
 - httpx >= 0.27.0
@@ -132,6 +152,7 @@ Tests require the following packages (automatically installed with `uv sync`):
 5. Run tests to verify
 
 Example:
+
 ```python
 class TestNewEndpoint:
     def test_new_feature(self, client):
@@ -149,8 +170,8 @@ To integrate with CI/CD pipelines:
 # Example GitHub Actions
 - name: Run API Tests
   run: |
-    cd tests
-    uv run pytest -v --tb=short
+    cd server
+    uv run pytest ../tests -v --tb=short
 ```
 
 ## Notes
@@ -158,4 +179,4 @@ To integrate with CI/CD pipelines:
 - All tests use in-memory mock data (no database required)
 - Tests are independent and can run in any order
 - FastAPI TestClient handles app lifecycle automatically
-- Tests run in ~0.13 seconds
+- Tests run in ~0.4 seconds
